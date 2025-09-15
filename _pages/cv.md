@@ -9,56 +9,57 @@ redirect_from:
 
 {% include base_path %}
 
-Education
-======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+## Education
 
-Work experience
-======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+* Ph.D in Computational Biology, INSA de Lyon, 2028
+* M.S. in Computer science, ENS de Lyon, 2025
+* M.S. in Engineering, École Centrale de Lyon, 2025
+* B.S. in Mathematics, Université Lyon 1, 2022
 
-* Fall 2015: Research Assistant
-  * GitHub University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+## Work experience
 
-* Summer 2015: Research Assistant
-  * GitHub University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* Summer 2025: Research Intern
   
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+  * Inria de Lyon, Beagle Team, Guillaume Beslon
+  * Subject : Numerical estimation of effective population size
 
-Publications
-======
-  <ul>{% for post in site.publications reversed %}
+* Summer 2024: Research Intern
+  * Università di Trieste, ERALlab, Eric Medvet
+  * Subject : Growing neural cellular automata
+
+* Summer 2023: Research Intern
+  * École Centrale de Lyon, LIRIS, Romain Vuillemot
+  * Subject : Exploring new metrics in Table Tennis Analytics
+  
+## Skills
+
+* Langage
+
+  * French (native)
+  * English (fluent)
+  * German (B1)
+  * Russian (A2)
+  * Italian (A1)
+  
+* Coding
+
+  * Python
+  * C/C++
+  * Latex/Typst/Markdown
+  * Rust (a bit)
+
+## Publications
+
+  <ul>
+    {% for post in site.publications reversed %}
+      {% include archive-single-cv.html %}
+    {% endfor %}
+  </ul>
+  
+## Teaching
+
+  <ul>
+  {% for post in site.teaching reversed %}
     {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks reversed %}
-    {% include archive-single-talk-cv.html  %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+  {% endfor %}
+  </ul>
