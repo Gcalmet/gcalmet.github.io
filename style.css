@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Cascadia Code", monospace;
+}
+
+#ui {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+
+  display: flex;
+  gap: 10px;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.button-group {
+  margin-bottom: 14px;
+}
+
+.group-title {
+  font-size: 12px;
+  color: #a5a4a4;
+  margin-bottom: 6px;
+}
+
+.button-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+button {
+  font-family: monospace;
+  padding: 6px 8px;
+  min-width: 36px;
+  background: #b9b9b9;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #727272;
+  border-color: #444;
+}
+
+#axesButton {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#axesIcon {
+  width: 100%;
+  height: 100%;
+}
+
+#axesButton:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+
+#panel {
+  background: rgba(10, 10, 10, 0.95);
+  border-left: 1px solid #333;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 220px;
+  height: 100%;
+  background: rgba(20,20,20,0.9);
+  color: rgb(163, 163, 163);
+  padding: 10px;
+  z-index: 20;
+}
+
+#algoInput {
+  width: 100%;
+  height: 100px;
+}
+
+#algoError {
+  margin-top: 10px;
+  color: red;
+  font-size: 12px;
+}
+
+#algoList {
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid #444;
+  padding-top: 10px;
+}
+
+.algo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* clé */
+  gap: 10px;
+
+  padding: 6px 8px;
+  margin-bottom: 5px;
+
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 4px;
+
+  font-size: 12px;
+}
+
+.algo-text {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.delete {
+  color: #777;
+  font-size: 14px;
+  margin-left: auto;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.algo-item:hover .delete {
+  opacity: 1;
+}

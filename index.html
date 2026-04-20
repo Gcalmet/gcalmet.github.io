@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="UTF-8">
+  <title>SIY - Solve It Yourself</title>
+  <style>
+    body { margin: 0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+    
+    <div id="ui">
+        <button id="axesButton" onclick="toggleAxes()">
+        <div id="axesIcon"></div>
+        </button>
+        <div id="buttonPanel"></div>
+    </div>
+
+    <div id="panel">
+        <h3>Algo Box</h3>
+
+        <textarea id="algoInput" placeholder="Ex: R U R' U' F2"></textarea>
+
+        <button onclick="runAlgorithm()">Run</button>
+        <button onclick="runAlgorithm(true)">Rev</button>
+        <button onclick="saveAlgorithm()">Save</button>
+
+        <hr>
+
+        <div id="algoList"></div>
+
+        <div id="algoError"></div>
+    </div>
+
+    <script type="importmap">
+        {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+        }
+    </script>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
