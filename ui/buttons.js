@@ -1,4 +1,4 @@
-import { move } from '../cube/animation.js';
+import { move, applyMove } from '../cube/animation.js';
 import { moveGroups } from '../cube/moves.js';
 
 export function initButtons() {
@@ -22,7 +22,7 @@ export function initButtons() {
         const btn = document.createElement("button");
         btn.textContent = m;
 
-        btn.onclick = () => move(m);
+        btn.onclick = () => applyMove(m);
 
         rowDiv.appendChild(btn);
       });

@@ -1,9 +1,3 @@
-function getAngle(face, suffix) {
-  if (suffix === "") return 1;
-  if (suffix === "'") return -1;
-  if (suffix === "2") return 2;
-}
-
 export const moves = {
 
   R: { axis: 'x', set: [1], sign: -1 },
