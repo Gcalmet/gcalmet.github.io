@@ -59,13 +59,26 @@ export function refreshAlgoList() {
 }
 
 export function saveAlgorithm() {
+  const errorDiv = document.getElementById("algoError");
+  errorDiv.textContent = "";
+
   const input = document.getElementById("algoInput").value.trim();
   if (!input) return;
+
+  let moves;
+
+  // validate before saving
+  try {
+    moves = parseAlgorithm(input);
+  } catch (e) {
+    errorDiv.textContent = e.message;
+    return;
+  }
 
   let list = JSON.parse(sessionStorage.getItem("algos") || "[]");
 
   const algo = {
-    name: input, // on stocke juste le texte brut
+    name: input,
     value: input
   };
 

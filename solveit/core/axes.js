@@ -1,9 +1,21 @@
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { scene } from '../core/scene.js';
-import { colors, faceState } from '../cube/cube.js';
+import { cubeGroup, faceState } from '../cube/cube.js';
+import { colors } from './colors.js';
 
 let axesVisible = false;
 let axisHelpers = [];
+
+const centers = {
+  F: new THREE.Vector3(0, 0, 1.5),
+  B: new THREE.Vector3(0, 0, -1.5),
+  R: new THREE.Vector3(1.5, 0, 0),
+  L: new THREE.Vector3(-1.5, 0, 0),
+  U: new THREE.Vector3(0, 1.5, 0),
+  D: new THREE.Vector3(0, -1.5, 0),
+};
+
+
 
 export function darken(hex, factor = 0.5) {
   const c = new THREE.Color(hex);
@@ -14,7 +26,7 @@ export function darken(hex, factor = 0.5) {
 }
 
 export function createAxisArrow(dir, color, label, position) {
-  const arrowColor = darken(color, 0.1);
+  const arrowColor = darken(color, 0.2);
 
   const arrow = new THREE.ArrowHelper(
     dir,
@@ -39,16 +51,35 @@ export function makeLabel(text, position, color) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
 
-  canvas.width = 128;
-  canvas.height = 64;
+  const SCALE = 4;
+
+  canvas.width = 128 * SCALE;
+  canvas.height = 64 * SCALE;
+
+  ctx.scale(SCALE, SCALE);
 
   ctx.fillStyle = "#" + color.getHexString();
   ctx.font = "bold 40px monospace";
-  ctx.fillText(text, 10, 40);
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillText(text, 64, 32);
 
   const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.needsUpdate = true;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
 
-  const material = new THREE.SpriteMaterial({ map: texture });
+  const material = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    color: 0xffffff,
+    depthTest: true,
+    depthWrite: false,
+    toneMapped: false
+  });
+
   const sprite = new THREE.Sprite(material);
 
   sprite.position.copy(position);
@@ -68,58 +99,32 @@ export function toggleAxes() {
 }
 
 export function showAxes() {
-  const centers = {
-    F: new THREE.Vector3(0, 0, 1.5),
-    B: new THREE.Vector3(0, 0, -1.5),
-    R: new THREE.Vector3(1.5, 0, 0),
-    L: new THREE.Vector3(-1.5, 0, 0),
-    U: new THREE.Vector3(0, 1.5, 0),
-    D: new THREE.Vector3(0, -1.5, 0),
-  };
 
-    const data = [
-        { dir: new THREE.Vector3(0,0,1), label: "F", pos: centers.F, color: colors.front },
-        { dir: new THREE.Vector3(0,0,-1), label: "B", pos: centers.B, color: colors.back },
-        { dir: new THREE.Vector3(1,0,0), label: "R", pos: centers.R, color: colors.right },
-        { dir: new THREE.Vector3(-1,0,0), label: "L", pos: centers.L, color: colors.left },
-        { dir: new THREE.Vector3(0,1,0), label: "U", pos: centers.U, color: colors.top },
-        { dir: new THREE.Vector3(0,-1,0), label: "D", pos: centers.D, color: colors.bottom },
-    ];
+  const data = [
+    { dir: new THREE.Vector3(0,0,1), label: "F", pos: centers.F, color: faceState["F"].color },
+    { dir: new THREE.Vector3(0,0,-1), label: "B", pos: centers.B, color: faceState["B"].color },
+    { dir: new THREE.Vector3(1,0,0), label: "R", pos: centers.R, color: faceState["R"].color },
+    { dir: new THREE.Vector3(-1,0,0), label: "L", pos: centers.L, color: faceState["L"].color },
+    { dir: new THREE.Vector3(0,1,0), label: "U", pos: centers.U, color: faceState["U"].color },
+    { dir: new THREE.Vector3(0,-1,0), label: "D", pos: centers.D, color: faceState["D"].color },
+  ];
 
   data.forEach(d => {
     const { arrow, sprite } = createAxisArrow(d.dir, d.color, d.label, d.pos);
 
-    scene.add(arrow);
-    scene.add(sprite);
+    cubeGroup.add(arrow);
+    cubeGroup.add(sprite);
 
     axisHelpers.push(arrow, sprite);
   });
 }
 
 export function hideAxes() {
-  axisHelpers.forEach(h => scene.remove(h));
+  axisHelpers.forEach(h => cubeGroup.remove(h));
   axisHelpers = [];
 }
 
 export function updateAxisColors() {
-  axisHelpers.forEach(h => {
-    const label = h.userData.label;
-    if (!label) return;
-
-    const baseColor = faceState[label]?.color;
-    if (!baseColor) return;
-
-    const color = new THREE.Color(baseColor);
-
-    // darker variant for arrows / labels
-    const dark = darken(baseColor, 0.2);
-
-    if (h.type === "ArrowHelper") {
-      h.setColor(dark);
-    }
-
-    if (h.material) {
-      h.material.color.set(dark);
-    }
-  });
+  hideAxes();
+  if (axesVisible) showAxes();
 }

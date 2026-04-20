@@ -13,8 +13,21 @@
     
     <div id="ui">
         <button id="axesButton" onclick="toggleAxes()">
-        <div id="axesIcon"></div>
+          <div id="axesIcon"></div>
         </button>
+
+        <button id="solveButton" onclick="toggleSolve()">
+          <div id="solveIcon"></div>
+        </button>
+
+        <button id="scrambleButton" onclick="toggleScramble()">
+          <div id="scrambleIcon"></div>
+        </button>
+
+        <div id="speedControl">
+          <input id="speedSlider" type="range" min="0.2" max="3" step="0.1" value="1">
+        </div>
+        
         <div id="buttonPanel"></div>
     </div>
 

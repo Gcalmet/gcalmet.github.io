@@ -5,27 +5,28 @@ export function parseAlgorithm(input) {
     throw new Error("Algorithm must be a string");
   }
 
-  const tokens = input.trim().split(/\s+/);
+  input = expandGroups(input);
 
-  const result = [];
+  const tokens = input.trim().split(/\s+/);
+  const parsed = [];
 
   for (const token of tokens) {
     const { face, suffix } = parseMove(token);
 
-    // validate face exists in your moves map
     if (!moves[face]) {
       throw new Error(`Invalid move face: ${face}`);
     }
 
-    // validate suffix
     if (!["", "'", "2"].includes(suffix)) {
       throw new Error(`Invalid move suffix: ${token}`);
     }
 
-    result.push(token);
+    parsed.push({ face, suffix });
   }
 
-  return result;
+  const simplified = simplifyMoves(parsed);
+
+  return simplified.map(m => m.face + m.suffix);
 }
 
 export function invertMove(m) {
@@ -41,4 +42,63 @@ export function parseMove(m) {
   const suffix = m.slice(1);   // '', ', 2
 
   return { face, suffix };
+}
+
+function expandGroups(input) {
+  const regex = /\(([^()]+)\)x(\d+)/g;
+
+  let result = input;
+
+  while (regex.test(result)) {
+    result = result.replace(regex, (_, group, count) => {
+      return Array(parseInt(count))
+        .fill(group.trim())
+        .join(" ");
+    });
+  }
+
+  return result;
+}
+
+function simplifyMoves(moves) {
+  const result = [];
+
+  for (const m of moves) {
+    const last = result[result.length - 1];
+
+    if (last && last.face === m.face) {
+      const v1 = moveToValue(last.suffix);
+      const v2 = moveToValue(m.suffix);
+
+      const combined = v1 + v2;
+      const suffix = valueToSuffix(combined);
+
+      result.pop();
+
+      if (suffix !== null) {
+        result.push({ face: m.face, suffix });
+      }
+
+    } else {
+      result.push({ ...m });
+    }
+  }
+
+  return result;
+}
+
+function moveToValue(suffix) {
+  if (suffix === "") return 1;
+  if (suffix === "'") return -1;
+  if (suffix === "2") return 2;
+  return 0;
+}
+
+function valueToSuffix(v) {
+  v = ((v % 4) + 4) % 4;
+
+  if (v === 0) return null;
+  if (v === 1) return "";
+  if (v === 2) return "2";
+  if (v === 3) return "'";
 }
