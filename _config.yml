@@ -23,7 +23,7 @@ repository               : "academicpages/academicpages.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "ifac_2026.jpg"
   name             : "Gabin Calmet"
   pronouns         : # example: "she/her"  
   bio              : "I am a PhD student in Computational Biology at Lyon, France."
